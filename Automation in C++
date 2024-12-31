@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <random>
+#include <string>
+
+using namespace std;
+
+const int BOARD_SIZE = 10;
+
+// ... (Functions for create_board(), print_board(), place_ship() from the previous response)
+
+// Improved random ship placement (avoids overlapping)
+bool place_ship_randomly(vector<vector<char>>& board, int length) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, BOARD_SIZE - 1);
+
+    for (int attempts = 0; attempts < 100; ++attempts) { // Limit attempts to prevent infinite loops
+        int row = dis(gen);
+        int col = dis(gen);
+        char orientation = rand() % 2 == 0 ? 'v' : 'h';
+
+        if (place_ship(board, row, col, length, orientation)) {
+            return true; 
+        }
+    }
+    return false; // Failed to place ship after multiple attempts
+}
+
+// Computer's AI: Basic targeting
+pair<int, int> computer_shot(const vector<vector<char>>& player_guess_board) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, BOARD_SIZE - 1);
+
+    int row, col;
+    do {
+        row = dis(gen);
+        col = dis(gen);
+    } while (player_guess_board[row][col] != '.'); // Ensure shot on an unguessed position
+
+    return make_pair(row, col);
+}
+
+// ... (Rest of the code from the previous response)
+
+int main() {
+    // Define ship sizes (length, number)
+    vector<pair<int, int>> ship_sizes = {{5, 1}, {4, 1}, {3, 2}, {2, 1}};
+
+    // ... (Rest of the code from the previous response)
+
+    while (player_hits < 17 && computer_hits < 17) {
+        // ... (Player's turn)
+
+        } else {
+            // Computer's turn
+            pair<int, int> computer_shot = computer_shot(player_guess_board);
+            int row = computer_shot.first, col = computer_shot.second;
+
+            // ... (Rest of the code from the previous response)
+        }
+
+        // ... (Rest of the code from the previous response)
+    }
+
+    return 0;
+}
